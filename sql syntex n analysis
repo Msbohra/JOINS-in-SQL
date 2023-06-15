@@ -1,0 +1,50 @@
+---Joins
+
+--Inner Join
+---Fetch customers zipcode who made purchase on '2019-04-06'
+
+select a.customer_id , b.customer_id, customer_zip
+from `farmers_database.customer` a
+inner join 
+`farmers_database.customer_purchases` b 
+on a.customer_id = b.customer_id 
+where market_date = '2019-04-06'
+
+---Another way using correlated sub-query
+select customer_id , customer_zip
+from `farmers_database.customer`
+where customer_id in 
+(select customer_id
+from `farmers_database.customer_purchases`
+where market_date = '2019-04-06')
+
+
+
+---Left Join 
+---Sum quantity purchased by each customer 
+select a.customer_id , sum(quantity) as total_quantity_purchased 
+from `farmers_database.customer` a 
+left join 
+`farmers_database.customer_purchases` b
+on a.customer_id = b.customer_id
+group by 1 
+
+
+select a.customer_id , a.customer_first_name, a.customer_zip , b.market_date ,b.product_id , b.quantity
+from `farmers_database.customer` a 
+left join 
+`farmers_database.customer_purchases` b
+on a.customer_id = b.customer_id
+where a.customer_id in (56,55)
+
+
+
+---Customers who have deleted their account from the app 
+--RIGHT JOIN
+select distinct a.customer_id , b.customer_id
+from `farmers_database.customer` a 
+right join 
+`farmers_database.customer_purchases` b 
+on a.customer_id = b.customer_id
+
+
