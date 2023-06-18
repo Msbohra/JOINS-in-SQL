@@ -47,4 +47,36 @@ right join
 `farmers_database.customer_purchases` b 
 on a.customer_id = b.customer_id
 
+---Joins Continued 
+---Outer JOIN
+
+--MYSQL : outer join is not supported
+--First left join , then right join , then final union 
+
+--Where we want to fetch all the customer who have or haven't made any purchase 
+
+select a.customer_id as cust_tb_cid, b.customer_id as sale_tb_cid , a.customer_zip , b.quantity
+from `farmers_database.customer` a 
+full outer join 
+`farmers_database.customer_purchases` b 
+on a.customer_id = b.customer_id
+where b.customer_id is null or a.customer_id is null
+
+
+--With left join : all the customer with sales , (customers with 0 sales have NULL values)
+--With Right join : all the customers who made purchase even if they do not exist in customer table (customers who deleted their account)
+
+
+---Self Joins : Join with the table itself 
+---Two different customer id who share same zip code 
+select a.customer_id , a.customer_zip , b.customer_id , b.customer_zip
+from `farmers_database.customer` a 
+join `farmers_database.customer` b 
+on a.customer_zip = b.customer_zip and a.customer_id <> b.customer_id
+
+
+---Cross Joins : Cartesian product join (mxn rows)
+select product_category_name , product_name
+from `farmers_database.product` , `farmers_database.products_category`
+
 
